@@ -6,7 +6,7 @@ public class Pedido {
     private ArrayList<Integer> cantidades;
     private ArrayList<Double> precios;
     private ArrayList<Double> preciosTotal;
-    private ArrayList<String> comentarios;
+    //private ArrayList<String> comentarios;
     private double propinaSugerida;
     private double total;
 
@@ -15,22 +15,28 @@ public class Pedido {
         cantidades = new ArrayList<Integer>();
         precios = new ArrayList<Double>();
         preciosTotal = new ArrayList<Double>();
-        comentarios = new ArrayList<String>();
+        //comentarios = new ArrayList<String>();
         total = 0;
         propinaSugerida = 0;
     }
 
-    public Pedido(Pedido pedido){
 
-    }
+    // Se genera un nuevo pedido. Se agrega al pedido total y se envia el pedido actual a cocina.
 
-    public void generarPedido(String producto, int cantidad, double precio, String comentario){
-        productos.add(producto);
-        cantidades.add(cantidad);
-        precios.add(precio);
-        preciosTotal.add(cantidad*precio);
-        comentarios.add(comentario);
+    public String generarPedido(String producto, int cantidad, double precio, String comentario){
+
+        if(productos.contains(producto)){
+            int index = productos.indexOf(producto);
+            int cant = cantidades.set(index, cantidades.get(index)+cantidad);
+            precios.set(index, cant*precio);
+        }else {
+            productos.add(producto);
+            cantidades.add(cantidad);
+            precios.add(precio);
+            preciosTotal.add(cantidad * precio);
+        }
         setTotal();
+        return toStringCocina(producto, cantidad, comentario);
     }
 
     private void setTotal(){
@@ -39,6 +45,40 @@ public class Pedido {
             sum += precio;
         }
         total = sum;
+        propinaSugerida = total*0.12;
     }
 
+    public ArrayList<String> getProductos(){
+        return productos;
+    }
+
+    public ArrayList<Integer> getCantidades() {
+        return cantidades;
+    }
+
+    public ArrayList<Double> getPrecios(){
+        return precios;
+    }
+
+    public ArrayList<Double> getPreciosTotal() {
+        return preciosTotal;
+    }
+
+    public void sumarPedido(Pedido pedido){
+    }
+
+    private String toStringCocina(String producto, int cantidad, String comentario){
+
+        return producto+"\t"+cantidad+"\t"+comentario;
+    }
+
+    public String toStringBoleta(){
+        String pedidoBoleta = "";
+
+        for(int i = 0; i < productos.size(); i++){
+            pedidoBoleta += productos.get(i)+"\t"+cantidades.get(i)+"\t"+preciosTotal.get(i)+"\n";
+        }
+        pedidoBoleta += "\n"+total+propinaSugerida;
+        return pedidoBoleta;
+    }
 }
