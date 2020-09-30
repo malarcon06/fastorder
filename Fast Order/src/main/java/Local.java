@@ -1,20 +1,25 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Local {
 
     public String nombre;
     private int numeroMesas;
     private ArrayList<Mesa> mesas;
+    private MenuLocal menu;
 
     public Local(){
         numeroMesas = 0;
         mesas = new ArrayList<Mesa>();
+        menu = new MenuLocal();
         this.nombre = "Local";
     }
 
+    public ArrayList<Mesa> getMesas(){
+        return mesas;
+    }
+
     public void anadirMesa(int capacidad, String horaLlegada){
-        mesas.add(new Mesa(capacidad, horaLlegada, mesas.size()+1));
+        mesas.add(new Mesa(capacidad, horaLlegada, mesas.size()+1, menu));
     }
 
     public void modificarMesa(int numero){
@@ -34,128 +39,59 @@ public class Local {
         mesas.clear();
     }
 
+    //Anade una categoria al menu
+    public void anadirCategoriaMenu(String nombreCategoria){
+        this.menu.nuevaCategoria(nombreCategoria);
+        actualizarMenu();
+    }
 
+    //Elimina una categoria del menu
+    public void eliminarCategoriaMenu(String categoria){
+        this.menu.borrarCategoria(categoria);
+        actualizarMenu();
+    }
 
-    public class Menu{
+    //Anade una subcategoria a la categoria seleccionada del menu
+    public void anadirSubcategoriaMenu(String categoria, String nombreSubcategoria){
+        this.menu.nuevaSubcategoria(categoria, nombreSubcategoria);
+        actualizarMenu();
+    }
 
-        ArrayList<Categoria> categorias;
+    //Elimina una subcategoria de la categoria seleccionada del menu
+    public void eliminarSubcategoriaMenu(String categoria, String subcategoria){
+        this.menu.borrarSubcategoria(categoria, subcategoria);
+        actualizarMenu();
+    }
 
-        public Menu(){
-            categorias = new ArrayList<Categoria>();
+    //Anade un producto a la categoria SIN subcategorias seleccionada
+    public void anadirProductoMenu(String categoria, String nombreProducto, double precio){
+        this.menu.nuevoProducto(categoria, nombreProducto, precio);
+        actualizarMenu();
+    }
+
+    //Anade un producto a la categoria CON subcategorias seleccionada
+    public void anadirProductoMenu(String categoria, String subcategoria, String nombreProducto, double precio){
+        this.menu.nuevoProducto(categoria, subcategoria, nombreProducto, precio);
+        actualizarMenu();
+    }
+
+    //Eliminar un producto de la categoria SIN subcategorias seleccionada
+    public void elimnarProductoMenu(String categoria, String nombreProducto){
+        this.menu.borrarProducto(categoria, nombreProducto);
+        actualizarMenu();
+    }
+
+    //Eliminar un producto de la categoria CON subcategorias seleccionada
+    public void elimnarProductoMenu(String categoria, String subcategoria, String nombreProducto){
+        this.menu.borrarProducto(categoria, subcategoria, nombreProducto);
+        actualizarMenu();
+    }
+
+    //Despues de cualquier cambio al menu se usa esta funcion para actualizar el menu en todas las mesas
+    public void actualizarMenu(){
+        for(Mesa mesa: mesas){
+            mesa.updateMenu(menu);
         }
-
-        public void nuevaCategoria(String nombreCategoria){
-            categorias.add(new Categoria(nombreCategoria));
-        }
-
-        public void borrarCategoria(String nombreCategoria){
-            int index = Integer.MIN_VALUE;
-            for(Categoria categoria: categorias){
-                if(categoria.nombreCategoria.equals(nombreCategoria)){
-                    index = categorias.indexOf(categoria);
-                    break;
-                }
-            }
-            if(index > -1){
-                categorias.remove(index);
-            }
-        }
-
-        public void nuevaSubcategoria(String nombreCategoria, String nombreSubcategoria){
-            for(Categoria categoria: categorias){
-                if(categoria.nombreCategoria.equals(nombreCategoria)){
-                    categoria.agregarSubcategoria(nombreSubcategoria);
-                    break;
-                }
-            }
-        }
-
-        public void borrarSubcategoria(String nombreCategoria, String nombreSubcategoria){
-            int index = Integer.MIN_VALUE;
-            for(Categoria categoria: categorias){
-                if(categoria.nombreCategoria.equals(nombreCategoria)){
-                    categoria.eliminarSubcategoria(nombreSubcategoria);
-                }
-            }
-        }
-
-        public void nuevoProducto(String nombreCategoria, String nombreSubcategoria, String nombreProducto,
-                                  double precioProducto){
-            for(Categoria categoria: categorias){
-                if(categoria.nombreCategoria.equals(nombreCategoria)){
-                    for(Subcategoria subcategoria: categoria.subcategorias){
-                        if(subcategoria.nombreSubcategoria.equals(nombreSubcategoria)){
-                            subcategoria.agregarProducto(nombreProducto, precioProducto);
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        public void borrarProducto(String nombreCategoria, String nombreSubcategoria, String nombreProducto){
-            for(Categoria categoria: categorias){
-                if(categoria.nombreCategoria.equals(nombreCategoria)){
-                    for(Subcategoria subcategoria: categoria.subcategorias){
-                        if(subcategoria.nombreSubcategoria.equals(nombreSubcategoria)){
-                            subcategoria.eliminarProducto(nombreProducto);
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-
-        public class Categoria{
-
-            String nombreCategoria;
-            ArrayList<Subcategoria> subcategorias;
-
-            public Categoria(String nombreCategoria){
-                this.nombreCategoria = nombreCategoria;
-                subcategorias = new ArrayList<Subcategoria>();
-            }
-
-            public void agregarSubcategoria(String nombreSubcategoria){
-                subcategorias.add(new Subcategoria(nombreSubcategoria));
-            }
-
-            public void eliminarSubcategoria(String nombreSubcategoria){
-                int index = Integer.MIN_VALUE;
-                for(Subcategoria subcategoria: subcategorias){
-                    if(subcategoria.nombreSubcategoria.equals(nombreSubcategoria)){
-                        index = subcategorias.indexOf(subcategoria);
-                        break;
-                    }
-                }
-                if(index > -1) {
-                    subcategorias.remove(index);
-                }
-            }
-        }
-
-        public class Subcategoria{
-
-            String nombreSubcategoria;
-            HashMap<String, Double> productos;
-
-            public Subcategoria(String nombreSubcategoria){
-                this.nombreSubcategoria = nombreSubcategoria;
-                productos = new HashMap<String, Double>();
-            }
-
-            public void agregarProducto(String nombreProducto, double precioProducto){
-                productos.put(nombreProducto, precioProducto);
-            }
-
-            public void eliminarProducto(String nombreProducto){
-                productos.remove(nombreProducto);
-            }
-        }
-
     }
 }
 

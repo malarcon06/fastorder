@@ -2,16 +2,23 @@ import java.util.Scanner;
 
 public class Mesa {
 
+    private String nombre;
     private int capacidad;
     private int numero;
     private String horaLlegada;
     private String estado;
     private Pedido pedidoActual;
+    private MenuLocal menu;
 
-    public Mesa(int capacidad, String horaLlegada, int numero){
+    public Mesa(int capacidad, String horaLlegada, int numero, MenuLocal menu){
+        this.menu = menu;
         this.capacidad = capacidad;
         this.horaLlegada = horaLlegada;
         this.numero = numero;
+    }
+
+    public void updateMenu(MenuLocal menu){
+        this.menu = menu;
     }
 
     public void setCapacidad(int capacidad) {
