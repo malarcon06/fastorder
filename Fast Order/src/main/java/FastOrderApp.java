@@ -18,6 +18,8 @@ public class FastOrderApp {
         frame.getContentPane().setBackground(Color.gray);
         frame.setLayout(null);
         frame.setResizable(false);
+        ImageIcon icon = new ImageIcon("icon.png");
+        frame.setIconImage(icon.getImage());
 
 
         /*
@@ -25,10 +27,15 @@ public class FastOrderApp {
         panel.setBounds(0,0,300,600);
         frame.add(panel);
         */
+
+
+        /*
         frame.add(new MainPanel());
+         */
+
+        frame.add(new MenuPanel());
+
         frame.setVisible(true);
-        ImageIcon icon = new ImageIcon("icon.png");
-        frame.setIconImage(icon.getImage());
     }
 
 

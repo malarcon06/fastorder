@@ -6,9 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class MainPanel extends JPanel implements ActionListener {
 
+
+    ArrayList<JButton> botonesMesas;
     int counter = 0;
     int counter2 = 0;
     JButton helperButton;
@@ -236,18 +239,21 @@ public class MainPanel extends JPanel implements ActionListener {
 
         opcionesSalas = new JButton("Opciones");
         opcionesPopup = new JPopupMenu();
-        opcionesPopup.add(new JMenuItem(new AbstractAction("Option 1") {
+        opcionesPopup.add(new JMenuItem(new AbstractAction("Editar Menu") {
             public void actionPerformed(ActionEvent e) {
+                //mostrar menu editable
             }
         }));
 
-        opcionesPopup.add(new JMenuItem(new AbstractAction("Option 2") {
+        opcionesPopup.add(new JMenuItem(new AbstractAction("Editar Mesas") {
             public void actionPerformed(ActionEvent e) {
+                //mostrar editor de mesas
             }
         }));
 
-        opcionesPopup.add(new JMenuItem(new AbstractAction("Option 3") {
+        opcionesPopup.add(new JMenuItem(new AbstractAction("Editar Salas") {
             public void actionPerformed(ActionEvent e) {
+                //??
             }
         }));
 

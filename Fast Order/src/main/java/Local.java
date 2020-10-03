@@ -88,7 +88,7 @@ public class Local {
     }
 
     //Despues de cualquier cambio al menu se usa esta funcion para actualizar el menu en todas las mesas
-    public void actualizarMenu(){
+    private void actualizarMenu(){
         for(Mesa mesa: mesas){
             mesa.updateMenu(menu);
         }

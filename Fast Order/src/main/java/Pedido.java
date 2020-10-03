@@ -64,9 +64,6 @@ public class Pedido {
         return preciosTotal;
     }
 
-    public void sumarPedido(Pedido pedido){
-    }
-
     private String toStringCocina(String producto, int cantidad, String comentario){
 
         return producto+"\t"+cantidad+"\t"+comentario;
